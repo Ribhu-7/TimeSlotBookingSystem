@@ -99,6 +99,7 @@ http://localhost:8000/docs
 
 🌐 Frontend Setup (Angular)
 cd frontend
+
 npm install
 
 Run UI:
