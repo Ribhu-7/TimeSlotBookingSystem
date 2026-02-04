@@ -1,0 +1,18 @@
+.preferences-card {
+  max-width: 600px;
+  margin: 20px auto;
+}
+
+.preference-section {
+  padding: 20px 0;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.help-text {
+  margin-top: 10px;
+  color: #666;
+  font-size: 14px;
+}

@@ -1,0 +1,22 @@
+<mat-card class="preferences-card">
+  <mat-card-header>
+    <mat-card-title>User Preferences</mat-card-title>
+  </mat-card-header>
+  
+  <mat-card-content>
+    <div class="preference-section">
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Event Category</mat-label>
+        <mat-select [(ngModel)]="category" (selectionChange)="onCategoryChange()">
+          <mat-option *ngFor="let cat of categories" [value]="cat">
+            {{ cat }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      
+      <p class="help-text">
+        Select the event category you're interested in. The calendar will show only events from this category.
+      </p>
+    </div>
+  </mat-card-content>
+</mat-card>

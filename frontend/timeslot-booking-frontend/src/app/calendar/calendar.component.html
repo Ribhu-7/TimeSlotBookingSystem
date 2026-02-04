@@ -1,0 +1,111 @@
+<mat-card class="calendar-card">
+  <mat-card-header>
+    <mat-card-title>
+      <div class="title-row">
+        <span>Time Slots Calendar</span>
+        <mat-chip-set aria-label="Category">
+          <mat-chip highlighted>{{ selectedCategory }}</mat-chip>
+        </mat-chip-set>
+      </div>
+    </mat-card-title>
+  </mat-card-header>
+  
+  <mat-card-content>
+    <!-- Week Navigation -->
+    <div class="week-navigation">
+      <button mat-icon-button (click)="previousWeek()" aria-label="Previous week">
+        <mat-icon>chevron_left</mat-icon>
+      </button>
+      
+      <div class="week-display">
+        <span class="week-range">{{ getWeekRange() }}</span>
+      </div>
+      
+      <button mat-icon-button (click)="nextWeek()" aria-label="Next week">
+        <mat-icon>chevron_right</mat-icon>
+      </button>
+      
+      <button 
+        mat-stroked-button 
+        (click)="goToCurrentWeek()" 
+        [disabled]="isCurrentWeek()"
+        class="today-button">
+        Today
+      </button>
+    </div>
+
+    <!-- Slots Display -->
+    <div class="slots-container">
+      <div *ngIf="slots.length === 0" class="no-slots">
+        <mat-icon>event_busy</mat-icon>
+        <p>No slots available for this week</p>
+        <p class="hint">Try selecting a different week or category</p>
+      </div>
+      
+      <div 
+        *ngFor="let slot of slots; trackBy: trackBySlotId"
+        class="slot-card"
+        [class.slot-booked]="!isAvailable(slot)"
+        [class.slot-user]="isSignedUp(slot)">
+        
+        <div class="slot-header">
+          <div class="slot-category">
+            <mat-icon>category</mat-icon>
+            <span>{{ slot.category }}</span>
+          </div>
+          
+          <div class="slot-status">
+            <mat-chip 
+              [color]="isAvailable(slot) ? 'primary' : (isSignedUp(slot) ? 'accent' : 'warn')"
+              highlighted>
+              {{ isAvailable(slot) ? 'Available' : (isSignedUp(slot) ? 'Your Booking' : 'Booked') }}
+            </mat-chip>
+          </div>
+        </div>
+        
+        <div class="slot-time">
+          <div class="time-item">
+            <mat-icon>schedule</mat-icon>
+            <div>
+              <label>Start:</label>
+              <span>{{ slot.start_time | date:'short' }}</span>
+            </div>
+          </div>
+          
+          <div class="time-item">
+            <mat-icon>schedule</mat-icon>
+            <div>
+              <label>End:</label>
+              <span>{{ slot.end_time | date:'short' }}</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="slot-actions">
+          <button 
+            *ngIf="isAvailable(slot)" 
+            mat-raised-button 
+            color="primary"
+            (click)="signup(slot)">
+            <mat-icon>event_available</mat-icon>
+            Sign Up
+          </button>
+          
+          <button 
+            *ngIf="isSignedUp(slot)" 
+            mat-raised-button 
+            color="warn"
+            (click)="unsubscribe(slot)">
+            <mat-icon>event_busy</mat-icon>
+            Unsubscribe
+          </button>
+          
+          <div *ngIf="!isAvailable(slot) && !isSignedUp(slot)" class="booked-message">
+            <mat-icon>lock</mat-icon>
+            <span>Slot already taken</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
